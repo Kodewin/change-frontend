@@ -18,6 +18,7 @@ export default function Home() {
   const api = useAxios();
   const [siteUrl, setSiteUrl] = useState('');
   const [watches, setWatches] = useState<Watch[]>([]);
+  const [loading, setLoading] = useState<string | null>(null);
 
   const fetchWatches = async () => {
     try {
@@ -42,23 +43,39 @@ export default function Home() {
   }, []);
 
   const addWatch = async () => {
-    const response = await api.post('/api/v1/watch', { url: siteUrl });
-    if (response.status == 201) {
-      setSiteUrl('');
-      fetchWatches();
+    try {
+      const response = await api.post('/api/v1/watch', { url: siteUrl });
+      if (response.status === 201) {
+        setSiteUrl('');
+        fetchWatches();
+      }
+    } catch (error) {
+      console.error('Failed to add watch:', error);
     }
   };
+
   const recheck = async (id: string) => {
-    const response = await api.get(`/api/v1/watch/${id}?recheck=1`);
-    if (response.status == 200) {
-      fetchWatches();
+    setLoading(id);
+    try {
+      const response = await api.get(`/api/v1/watch/${id}?recheck=1`);
+      if (response.status === 200) {
+        fetchWatches();
+      }
+    } catch (error) {
+      console.error('Failed to recheck watch:', error);
+    } finally {
+      setLoading(null);
     }
   };
 
   const deleteWatch = async (id: string) => {
-    const response = await api.delete(`/api/v1/watch/${id}`);
-    if(response.status == 204){
-      fetchWatches()
+    try {
+      const response = await api.delete(`/api/v1/watch/${id}`);
+      if (response.status === 204) {
+        fetchWatches();
+      }
+    } catch (error) {
+      console.error('Failed to delete watch:', error);
     }
   };
 
@@ -126,8 +143,11 @@ export default function Home() {
                     <td className='border px-4 py-2'>{item.last_checked}</td>
                     <td className='border px-4 py-2'>{item.last_changed}</td>
                     <td className='border px-4 py-2 flex space-x-2'>
-                      <button onClick={() => recheck(item.id)} className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>
-                        Recheck
+                      <button
+                        onClick={() => recheck(item.id)}
+                        className={`px-3 py-1 rounded-lg ${loading === item.id ? 'bg-gray-600' : 'bg-blue-600 hover:bg-blue-700'}`}
+                        disabled={loading === item.id}>
+                        {loading === item.id ? 'Rechecking...' : 'Recheck'}
                       </button>
                       <button className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>Edit</button>
                       <Link href={`/diff/${item.id}`} className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>
