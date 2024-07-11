@@ -19,21 +19,25 @@ export default function Home() {
   const [siteUrl, setSiteUrl] = useState('');
   const [watches, setWatches] = useState<Watch[]>([]);
 
-  useEffect(() => {
-    const fetchWatches = async () => {
-      try {
-        const response = await api.get('/api/v1/watch');
-        const transformedData = Object.keys(response.data).map((key) => ({
-          id: key,
-          ...response.data[key],
-          last_checked: formatDistanceToNow(new Date(response.data[key].last_checked * 1000), { addSuffix: true }),
-        }));
-        setWatches(transformedData);
-      } catch (error) {
-        console.error('Failed to fetch watches data:', error);
-      }
-    };
+  const fetchWatches = async () => {
+    try {
+      const response = await api.get('/api/v1/watch');
+      const transformedData = Object.keys(response.data).map((key) => ({
+        id: key,
+        ...response.data[key],
+        last_checked: formatDistanceToNow(new Date(response.data[key].last_checked * 1000), { addSuffix: true }),
+        last_changed:
+          response.data[key].last_changed != 0
+            ? formatDistanceToNow(new Date(response.data[key].last_changed * 1000), { addSuffix: true })
+            : 'Not Yet',
+      }));
+      setWatches(transformedData);
+    } catch (error) {
+      console.error('Failed to fetch watches data:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchWatches();
   }, []);
 
@@ -41,13 +45,20 @@ export default function Home() {
     const response = await api.post('/api/v1/watch', { url: siteUrl });
     if (response.status == 201) {
       setSiteUrl('');
+      fetchWatches();
+    }
+  };
+  const recheck = async (id: string) => {
+    const response = await api.get(`/api/v1/watch/${id}?recheck=1`);
+    if (response.status == 200) {
+      fetchWatches();
     }
   };
 
   const deleteWatch = async (id: string) => {
     const response = await api.delete(`/api/v1/watch/${id}`);
-    if (response.status == 201) {
-      setSiteUrl('');
+    if(response.status == 204){
+      fetchWatches()
     }
   };
 
@@ -70,7 +81,7 @@ export default function Home() {
               </button>
               <button className='px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg'>Edit</button>
             </div>
-            {/* <div className='mt-4'>
+            <div className='mt-4'>
               <div>
                 <label className='mr-2'>
                   <input type='radio' name='detection-type' value='text' className='mr-1' />
@@ -83,7 +94,7 @@ export default function Home() {
                   Re-stock detection for single product pages
                 </label>
               </div>
-            </div> */}
+            </div>
           </div>
           <div className='bg-gray-800 rounded-lg p-6'>
             <div className='flex justify-between items-center border-b border-gray-700 pb-4 mb-4'>
@@ -115,9 +126,11 @@ export default function Home() {
                     <td className='border px-4 py-2'>{item.last_checked}</td>
                     <td className='border px-4 py-2'>{item.last_changed}</td>
                     <td className='border px-4 py-2 flex space-x-2'>
-                      <button className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>Recheck</button>
+                      <button onClick={() => recheck(item.id)} className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>
+                        Recheck
+                      </button>
                       <button className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>Edit</button>
-                      <Link href='/diff' className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>
+                      <Link href={`/diff/${item.id}`} className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>
                         Diff
                       </Link>
                       <button onClick={() => deleteWatch(item.id)} className='px-3 py-1 bg-red-600 hover:bg-red-700 rounded-lg'>
