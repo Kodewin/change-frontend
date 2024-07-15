@@ -116,10 +116,10 @@ export default function Home() {
           <div className='bg-gray-800 rounded-lg p-6'>
             <div className='flex justify-between items-center border-b border-gray-700 pb-4 mb-4'>
               <h2 className='text-xl'>All</h2>
-              <div className='flex space-x-4'>
+              {/* <div className='flex space-x-4'>
                 <button className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>Tech news</button>
                 <button className='px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg'>changedetection.io</button>
-              </div>
+              </div> */}
             </div>
             <table className='w-full table-auto'>
               <thead>
