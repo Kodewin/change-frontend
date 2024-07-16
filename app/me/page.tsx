@@ -3,7 +3,7 @@ import AuthContext from '@/contexts/AuthContext';
 import useAxios from '@/helpers/useAxios';
 import { useContext, useEffect, useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const api = useAxios();
   const { logoutUser } = useContext(AuthContext);
   const [user, setUser] = useState('');
@@ -23,4 +23,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
