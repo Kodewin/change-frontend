@@ -6,7 +6,7 @@ const Page = () => {
   const [authURL, setAuthURL] = useState<string | null>(null);
   useEffect(() => {
     const fetch_auth_url = async () => {
-      const response = await fetch(`http://127.0.0.1:8000/api/auth/auth_url`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/auth_url`);
       const data = await response.json();
       setAuthURL(data.url);
     };
