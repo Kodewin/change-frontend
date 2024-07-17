@@ -2,7 +2,7 @@ import AuthContext from '@/contexts/AuthContext';
 import axios from 'axios';
 import { useContext } from 'react';
 
-const baseURL = 'http://localhost:8000';
+const baseURL = process.env.NEXT_PUBLIC_API_HOST;
 
 const useAxios = () => {
   const { authTokens } = useContext(AuthContext);
