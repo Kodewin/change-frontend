@@ -9,7 +9,7 @@ const Page = () => {
   const [user, setUser] = useState('');
   useEffect(() => {
     const fetch_auth_url = async () => {
-      const response = await api.get(`http://127.0.0.1:8000/api/auth/me`);
+      const response = await api.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/me`);
       const data = await response.data;
       setUser(data['logged_in_as']);
     };
