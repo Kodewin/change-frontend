@@ -5,27 +5,27 @@ import { useState } from "react";
 
 const notificationList = [
   {
-    image: "/images/user/user.png",
+    image: "/images/user.png",
     title: "Piter Joined the Team!",
     subTitle: "Congratulate him",
   },
   {
-    image: "/images/user/user.png",
+    image: "/images/user.png",
     title: "New message received",
     subTitle: "Devid sent you new message",
   },
   {
-    image: "/images/user/user.png",
+    image: "/images/user.png",
     title: "New Payment received",
     subTitle: "Check your earnings",
   },
   {
-    image: "/images/user/user.png",
+    image: "/images/user.png",
     title: "Jolly completed tasks",
     subTitle: "Assign her newtasks",
   },
   {
-    image: "/images/user/user.png",
+    image: "/images/user.png",
     title: "Roman Joined the Team!",
     subTitle: "Congratulate him",
   },
