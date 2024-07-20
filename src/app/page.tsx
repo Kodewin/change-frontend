@@ -3,11 +3,13 @@ import LoaderComponent from '@/components/Loaders/LoaderComponent';
 import useAxios from '@/hooks/useAxios';
 import { Watch } from '@/types/watch';
 import { formatDistanceToNow } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Wrapper from './Wrapper';
 
 export default function Home() {
   const api = useAxios();
+  const router = useRouter();
   const [siteUrl, setSiteUrl] = useState('');
   const [watches, setWatches] = useState<Watch[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -106,7 +108,7 @@ export default function Home() {
                   </thead>
                   <tbody>
                     {watches.map((watch, index) => (
-                      <tr key={index}>
+                      <tr onClick={() => router.push(`/diff/${watch.id}`)} className='hover:bg-green-200 cursor-pointer' key={index}>
                         <td
                           className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
                           <h5 className='text-dark dark:text-white'>{index + 1}</h5>
