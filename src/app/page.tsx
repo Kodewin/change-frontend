@@ -98,10 +98,10 @@ export default function Home() {
                   <thead>
                     <tr className='bg-[#F7F9FC] text-left dark:bg-dark-2'>
                       <th className='min-w-[20px] px-4 py-4 font-medium text-dark dark:text-white xl:pl-7.5'>#</th>
-                      <th className='min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white'>websites</th>
-                      <th className='min-w-[120px] px-4 py-4 font-medium text-dark dark:text-white'>Last Checked</th>
-                      <th className='px-4 py-4 text-right font-medium text-dark dark:text-white xl:pr-7.5'>Last Changed</th>
-                      <th className='px-4 py-4 text-right font-medium text-dark dark:text-white xl:pr-7.5'>Actions</th>
+                      <th className='min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white'>Websites</th>
+                      <th className='px-4 py-4 text-center font-medium text-dark dark:text-white'>Last Checked</th>
+                      <th className='px-4 py-4 text-center font-medium text-dark dark:text-white xl:pr-7.5'>Last Changed</th>
+                      <th className='px-4 py-4 text-center font-medium text-dark dark:text-white xl:pr-7.5'>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -117,16 +117,16 @@ export default function Home() {
                           <p className='text-dark dark:text-white'>{watch.url}</p>
                         </td>
                         <td
-                          className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
+                          className={`border-[#eee] px-4 py-4 text-center dark:border-dark-3 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
                           <p>{watch.last_checked}</p>
                         </td>
                         <td
-                          className={`border-[#eee] px-4 py-4 dark:border-dark-3 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
+                          className={`border-[#eee] px-4 py-4 text-center dark:border-dark-3 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
                           <p>{watch.last_changed}</p>
                         </td>
                         <td
                           className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pr-7.5 ${index === watches.length - 1 ? 'border-b-0' : 'border-b'}`}>
-                          <div className='flex items-center justify-end space-x-3.5'>
+                          <div className='flex items-center justify-center space-x-3.5'>
                             <button onClick={() => recheck(watch.id)}>
                               <i className='fa-solid fa-arrows-rotate'></i>
                             </button>
