@@ -72,6 +72,12 @@ export default function Home() {
     }
   };
 
+  const handleEnterPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      addWatch()
+    }
+  };
+
   return (
     <Wrapper>
       <main className='flex flex-col items-center justify-between'>
@@ -86,10 +92,11 @@ export default function Home() {
                     onChange={(e) => setSiteUrl(e.target.value)}
                     placeholder='https://someurl.com'
                     value={siteUrl}
+                    onKeyDown={handleEnterPress}
                     autoFocus
                     className='w-242.5 rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-3 text-dark outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2 dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary'
                   />
-                  <button onClick={addWatch} className='bg-green text-white rounded-[5px] px-10 py-3.5 lg:px-8 xl:px-10'>
+                  <button onClick={addWatch} className='bg-green text-white rounded-[5px] px-10 py-3.5 lg:px-8 xl:px-10 font-bold'>
                     Watch
                   </button>
                 </div>
