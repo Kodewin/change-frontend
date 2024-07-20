@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import DarkModeSwitcher from './DarkModeSwitcher';
-import DropdownNotification from './DropdownNotification';
+import ButtonDefault from '../Buttons/ButtonDefault';
 import DropdownUser from './DropdownUser';
 
 const Header = (props: { sidebarOpen: string | boolean | undefined; setSidebarOpen: (arg0: boolean) => void }) => {
@@ -59,10 +58,16 @@ const Header = (props: { sidebarOpen: string | boolean | undefined; setSidebarOp
         </div>
 
         <div className='flex items-center justify-normal gap-2 2xsm:gap-4 lg:w-full lg:justify-between xl:w-auto xl:justify-normal'>
-          <ul className='flex items-center gap-2 2xsm:gap-4'>
+          {/* <ul className='flex items-center gap-2 2xsm:gap-4 bg-gray-5'>
             <DarkModeSwitcher />
             <DropdownNotification />
-          </ul>
+            <li></li>
+            </ul> */}
+          <div className='flex items-center pt-3 mr-10'>
+            <ButtonDefault label='Upgrade Plan' link='/' customClasses='bg-black rounded-lg text-white py-[11px] px-3 mb-3'>
+              <i className='fa-solid fa-crown text-amber-500'></i>
+            </ButtonDefault>
+          </div>
           <DropdownUser />
         </div>
       </div>

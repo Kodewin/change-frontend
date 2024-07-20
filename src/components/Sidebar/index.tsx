@@ -80,6 +80,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* <!-- Sidebar Menu --> */}
           <div className='flex flex-col h-full justify-between'>
             <nav className='mt-1 px-4 lg:px-6'>
+              <ButtonDefault label='New Watch' link='/' customClasses='bg-primary rounded-lg text-white py-[11px] w-full mb-7'>
+                <i className='fa-solid fa-plus'></i>
+              </ButtonDefault>
               {menuGroups.map((group, groupIndex) => (
                 <div key={groupIndex}>
                   <h3 className='mb-5 text-sm font-medium text-dark-4 dark:text-dark-6'>{group.name}</h3>
@@ -91,14 +94,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </div>
               ))}
             </nav>
-            <div className='flex flex-col items-center justify-center mx-8'>
-              <ButtonDefault label='New Watch' link='/' customClasses='bg-primary rounded-lg text-white py-[11px] w-full mb-3'>
-                <i className='fa-solid fa-plus'></i>
-              </ButtonDefault>
-              <ButtonDefault label='Upgrade Plan' link='/' customClasses='bg-black rounded-lg text-white py-[11px] w-full mb-3'>
-                <i className='fa-solid fa-crown text-amber-500'></i>
-              </ButtonDefault>
-            </div>
           </div>
         </div>
       </aside>
