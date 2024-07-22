@@ -3,6 +3,7 @@ import '@/css/style.css';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'jsvectormap/dist/css/jsvectormap.css';
 import { Metadata } from 'next';
+import Script from 'next/script';
 import React from 'react';
 
 export const metadata: Metadata = {
@@ -25,8 +26,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         {children}
-
-        <script src='https://kit.fontawesome.com/c75f557ffd.js' crossOrigin='anonymous'></script>
+        <Script src='https://kit.fontawesome.com/c75f557ffd.js' crossOrigin='anonymous'></Script>
       </body>
     </html>
   );
