@@ -9,16 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.0",
     "apexcharts": "^3.45.2",
     "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "flatpickr": "^4.6.13",
-    "flowbite": "^2.4.1",
-    "flowbite-react": "^0.10.1",
-    "framer-motion": "^11.3.8",
+    "framer-motion": "^11.3.12",
     "jsvectormap": "^1.5.3",
     "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.414.0",
     "next": "^14.1.4",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
@@ -26,7 +27,8 @@
     "react-quill": "^2.0.0",
     "react-select": "^5.8.0",
     "react-table": "^7.8.0",
-    "tailwind-merge": "^2.4.0"
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

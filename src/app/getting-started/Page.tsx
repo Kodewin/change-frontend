@@ -3,15 +3,11 @@ import ButtonDefault from '@/components/Buttons/ButtonDefault';
 import FAQ from '@/components/landing/FAQ';
 import NavBar from '@/components/landing/NavBar';
 import { StickyScroll } from '@/components/ui/sticky-scroll-reveal';
-import { initFlowbite } from 'flowbite';
+
 import { useEffect, useState } from 'react';
 
 const Page = () => {
   const [authURL, setAuthURL] = useState<string | null>(null);
-
-  useEffect(() => {
-    initFlowbite();
-  }, []);
 
   useEffect(() => {
     const fetch_auth_url = async () => {
@@ -20,7 +16,7 @@ const Page = () => {
       setAuthURL(data.url);
     };
     fetch_auth_url();
-  }, []);
+  });
 
   const content = [
     {
@@ -89,6 +85,7 @@ const Page = () => {
       description: 'Quisque vehicula massa non ullamcorper elementum. Sed urna magna, convallis ac justo at, dictum semper erat.',
     },
   ];
+
   return (
     <div>
       <NavBar />
@@ -127,8 +124,8 @@ const Page = () => {
           {[...features, ...features, ...features].map((feature, index) => (
             <div key={index} className='text-center p-6 bg-white rounded-lg shadow-md'>
               <i className={`fa-solid text-5xl ${feature.icon} hover:text-primary`}></i>
-              <h3 className='text-xl font-semibold text-teal-900 mb-2'>{feature.heading}</h3>
-              <p className='text-teal-700'>{feature.description}</p>
+              <h3 className='text-xl font-semibold mb-2'>{feature.heading}</h3>
+              <p className=''>{feature.description}</p>
             </div>
           ))}
         </div>
