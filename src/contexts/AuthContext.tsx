@@ -44,35 +44,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   let [error, setError] = useState({});
   let [user, setUser] = useState<User | null>(null);
   let [authTokens, setAuthTokens] = useState(() =>
-    typeof window !== 'undefined' && localStorage.getItem('authTokens')
-      ? JSON.parse(localStorage.getItem('authTokens') || '{}')
-      : null,
+    typeof window !== 'undefined' && localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens') || '{}') : null
   );
 
   let [tokenData, setTokenData] = useState(() =>
-    typeof window !== 'undefined' && localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens') || '{}') : null,
+    typeof window !== 'undefined' && localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens') || '{}') : null
   );
 
   useEffect(() => {
     if (!tokenData) {
-      router.replace('/accounts/login');
+      router.replace('/getting-started');
     }
   }, [router, tokenData, loading]);
 
-  // useEffect(() => {
-  //   const fetchMe = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://127.0.0.1:8000/api/auth/accounts/${(jwtDecode(authTokens?.access) as { user_id: string }).user_id}/`,
-  //       );
-  //       const userData = await response.json();
-  //       setUser(userData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   authTokens ? fetchMe() : null;
-  // }, [tokenData]);
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${authTokens.access}`,
+          },
+        });
+        const userData = await response.json();
+        setUser(userData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    authTokens ? fetchMe() : null;
+  }, [tokenData]);
 
   let loginUser = async (data: any) => {
     localStorage.setItem('authTokens', JSON.stringify(data));
@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAuthTokens(null);
     setTokenData(null);
     localStorage.removeItem('authTokens');
-    router.push('/login');
+    router.push('/getting-started');
   };
 
   useEffect(() => {

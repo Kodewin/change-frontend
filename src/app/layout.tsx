@@ -5,6 +5,7 @@ import 'jsvectormap/dist/css/jsvectormap.css';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import React from 'react';
+import ProvidersWrapper from './providers';
 
 export const metadata: Metadata = {
   title: 'Webkoa',
@@ -25,7 +26,7 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning={true}>
-        {children}
+        <ProvidersWrapper>{children}</ProvidersWrapper>
         <Script src='https://kit.fontawesome.com/c75f557ffd.js' crossOrigin='anonymous'></Script>
       </body>
     </html>
