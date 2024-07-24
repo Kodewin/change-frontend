@@ -1,25 +1,29 @@
 'use client'
-import { useState } from 'react';
 import Wrapper from '@/app/Wrapper';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 const Page = () => {
-  const [crawlingArea, setCrawlingArea] = useState('single-url');
-  const [urlInput, setUrlInput] = useState('');
+  const [crawlingArea, setCrawlingArea] = useState<'single-url' | 'multiple-urls' | 'entire-website'>('single-url');
+  const [urlInput, setUrlInput] = useState<string>('');
 
-  const handleCrawlingChange = (event) => {
-    setCrawlingArea(event.target.value);
+  const handleCrawlingChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCrawlingArea(event.target.value as 'single-url' | 'multiple-urls' | 'entire-website');
     setUrlInput(''); // Reset URL input when the crawling area changes
   };
 
-  const handleUrlChange = (event) => {
+  const handleUrlChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setUrlInput(event.target.value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
 
   return (
     <Wrapper>
       <div className='flex-1 p-8'>
         <h1 className='text-2xl font-bold mb-4 text-teal-800'>Create a New Watch</h1>
-        <form className='space-y-6'>
+        <form className='space-y-6' onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label className='block text-teal-700 font-medium'>Watch Name</label>
             <input
