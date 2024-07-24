@@ -80,7 +80,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* <!-- Sidebar Menu --> */}
           <div className='flex flex-col h-full justify-between'>
             <nav className='mt-1 px-4 lg:px-6'>
-              <ButtonDefault label='New Watch' link='/' customClasses='bg-primary rounded-lg text-white py-[11px] w-full mb-7'>
+              <ButtonDefault label='New Watch' link='/watches/create' customClasses='bg-primary rounded-lg text-white py-[11px] w-full mb-7'>
                 <i className='fa-solid fa-plus'></i>
               </ButtonDefault>
               {menuGroups.map((group, groupIndex) => (
