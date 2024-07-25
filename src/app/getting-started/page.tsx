@@ -16,7 +16,7 @@ const Page = () => {
       setAuthURL(data.url);
     };
     fetch_auth_url();
-  });
+  }, []);
 
   const content = [
     {
