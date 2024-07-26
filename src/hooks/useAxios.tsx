@@ -8,7 +8,7 @@ const useAxios = () => {
   const { authTokens } = useContext(AuthContext);
   const axiosInstance = axios.create({
     baseURL,
-    headers: { 'x-api-key': '0933eacd7da2421c5b71634f69f03377', Authorization: `Bearer ${authTokens?.access}` },
+    headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY, Authorization: `Bearer ${authTokens?.access}` },
   });
 
   return axiosInstance;
