@@ -1,51 +1,57 @@
-// Step3.tsx
-import { useWatch } from '@/contexts/WatchCreationContext';
 import React from 'react';
+import { useWatch } from '@/contexts/WatchCreationContext';
 
-interface StepProps {
+interface Step3Props {
   onNext: () => void;
   onPrev: () => void;
 }
 
-const Step3: React.FC<StepProps> = ({ onNext, onPrev }) => {
+const Step3: React.FC<Step3Props> = ({ onNext, onPrev }) => {
   const { watchData, updateWatchData } = useWatch();
 
-  return (
-    <div className='p-4 bg-white rounded-lg shadow-md'>
-      <div className='m-4 flex justify-between'>
-        <button
-          onClick={onPrev}
-          className='w-56 px-4 py-2 bg-gray-600 text-white font-semibold rounded-md shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500'>
-          Previous
-        </button>
-        <h1 className='text-2xl font-bold text-teal-700 mb-4'>Customise Alerts</h1>
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    updateWatchData(name as keyof typeof watchData, value);
+  };
 
-        <button
-          onClick={onNext}
-          className='w-56 px-4 py-2 bg-teal-600 text-white font-semibold rounded-md shadow hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500'>
-          Next
-        </button>
-      </div>
+  return (
+    <div className='bg-white p-6 rounded shadow-md'>
+      <h2 className='text-xl font-semibold mb-4'>Frequency Settings</h2>
       <div className='mb-4'>
-        <label className='block text-gray-700'>Alert Type</label>
+        <label className='block text-gray-700'>Frequency</label>
         <select
-          value={watchData.alertType}
-          onChange={(e) => updateWatchData('alertType', e.target.value)}
-          className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500'>
-          <option value='percentage'>Change Percentage</option>
-          <option value='words'>Number of Words</option>
+          required
+          name='frequency'
+          value={watchData.frequency}
+          onChange={handleChange}
+          className='w-full px-4 py-2 border rounded-md'>
+          <optgroup label='Free'>
+            <option value='monthly'>Once every month</option>
+            <option value='weekly'>Once every week</option>
+            <option value='every5days'>Every 5 days</option>
+            <option value='daily'>Check every day</option>
+            <option value='every12hours'>Every 12 hours</option>
+          </optgroup>
+          <optgroup label='Premium'>
+            <option value='every6hours'>Every 6 hours</option>
+            <option value='every3hours'>Every 3 hours</option>
+            <option value='hourly'>Every hour</option>
+            <option value='every30minutes'>Every 30 minutes</option>
+            <option value='every20minutes'>Every 20 minutes</option>
+            <option value='every10minutes'>Every 10 minutes</option>
+          </optgroup>
         </select>
       </div>
-      <div className='mb-4'>
-        <label className='block text-gray-700'>Set Range</label>
-        <input
-          type='range'
-          value={watchData.alertRange}
-          onChange={(e) => updateWatchData('alertRange', parseInt(e.target.value))}
-          min='0'
-          max='100'
-          className='mt-1 block w-full'
-        />
+      <div className='flex justify-between mt-4'>
+        <button onClick={onPrev} className='bg-gray-500 text-white px-4 py-2 rounded-md'>
+          Previous
+        </button>
+        <button
+          disabled={!watchData.frequency}
+          onClick={onNext}
+          className={'bg-teal-500 text-white px-4 py-2 rounded-md' + (!watchData.frequency ? ' cursor-not-allowed' : '')}>
+          Next
+        </button>
       </div>
     </div>
   );

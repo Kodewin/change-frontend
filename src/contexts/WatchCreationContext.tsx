@@ -1,9 +1,9 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface WatchData {
   monitorType: string;
   monitoringType: string;
-  urls: string;
+  url: string;
   alertType: string;
   alertRange: number;
   frequency: string;
@@ -13,38 +13,45 @@ interface WatchData {
   maxEmails: number;
 }
 
-interface WatchContextType {
+interface WatchContextProps {
   watchData: WatchData;
-  updateWatchData: (key: keyof WatchData, value: string | number | boolean) => void;
+  updateWatchData: (key: keyof WatchData, value: any) => void;
 }
 
-const WatchContext = createContext<WatchContextType | undefined>(undefined);
+interface WatchProviderProps {
+  children: ReactNode;
+}
 
-export const useWatch = (): WatchContextType => {
+const defaultWatchData: WatchData = {
+  monitorType: 'single',
+  monitoringType: 'content',
+  url: '',
+  alertType: 'percentage',
+  alertRange: 0,
+  frequency: 'monthly',
+  watchName: '',
+  tags: '',
+  emailNotifications: false,
+  maxEmails: 1,
+};
+
+const WatchContext = createContext<WatchContextProps | undefined>(undefined);
+
+export const WatchProvider: React.FC<WatchProviderProps> = ({ children }) => {
+  const [watchData, setWatchData] = useState<WatchData>(defaultWatchData);
+
+  const updateWatchData = (key: keyof WatchData, value: any) => {
+    setWatchData((prev) => ({ ...prev, [key]: value }));
+  };
+
+
+  return <WatchContext.Provider value={{ watchData, updateWatchData}}>{children}</WatchContext.Provider>;
+};
+
+export const useWatch = (): WatchContextProps => {
   const context = useContext(WatchContext);
   if (!context) {
     throw new Error('useWatch must be used within a WatchProvider');
   }
   return context;
-};
-
-export const WatchProvider = ({ children }: { children: ReactNode }) => {
-  const [watchData, setWatchData] = useState<WatchData>({
-    monitorType: '',
-    monitoringType: '',
-    urls: '',
-    alertType: '',
-    alertRange: 0,
-    frequency: '',
-    watchName: '',
-    tags: '',
-    emailNotifications: false,
-    maxEmails: 1,
-  });
-
-  const updateWatchData = (key: keyof WatchData, value: string | number | boolean) => {
-    setWatchData((prev) => ({ ...prev, [key]: value }));
-  };
-
-  return <WatchContext.Provider value={{ watchData, updateWatchData }}>{children}</WatchContext.Provider>;
 };
