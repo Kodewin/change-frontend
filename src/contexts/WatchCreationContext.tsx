@@ -11,11 +11,19 @@ interface WatchData {
   tags: string;
   emailNotifications: boolean;
   maxEmails: number;
+  time_between_check: {
+    weeks: number | null;
+    days: number | null;
+    hours: number | null;
+    minutes: number | null;
+    seconds: number | null;
+  };
 }
 
 interface WatchContextProps {
   watchData: WatchData;
   updateWatchData: (key: keyof WatchData, value: any) => void;
+  resetWatchData: () => void;
 }
 
 interface WatchProviderProps {
@@ -33,6 +41,13 @@ const defaultWatchData: WatchData = {
   tags: '',
   emailNotifications: false,
   maxEmails: 1,
+  time_between_check: {
+    weeks: null,
+    days: null,
+    hours: 3, // default to 3 hours
+    minutes: null,
+    seconds: null,
+  },
 };
 
 const WatchContext = createContext<WatchContextProps | undefined>(undefined);
@@ -44,8 +59,11 @@ export const WatchProvider: React.FC<WatchProviderProps> = ({ children }) => {
     setWatchData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const resetWatchData = () => {
+    setWatchData(defaultWatchData);
+  };
 
-  return <WatchContext.Provider value={{ watchData, updateWatchData}}>{children}</WatchContext.Provider>;
+  return <WatchContext.Provider value={{ watchData, updateWatchData, resetWatchData }}>{children}</WatchContext.Provider>;
 };
 
 export const useWatch = (): WatchContextProps => {
