@@ -1,7 +1,7 @@
-import React from 'react';
 import { useWatch } from '@/contexts/WatchCreationContext';
 import useAxios from '@/hooks/useAxios';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface Step4Props {
   onPrev: () => void;
@@ -9,8 +9,8 @@ interface Step4Props {
 
 const Step4: React.FC<Step4Props> = ({ onPrev }) => {
   const api = useAxios();
-  const router = useRouter()
-  const { watchData, updateWatchData } = useWatch();
+  const router = useRouter();
+  const { watchData, updateWatchData, resetWatchData } = useWatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = event.target;
@@ -23,15 +23,27 @@ const Step4: React.FC<Step4Props> = ({ onPrev }) => {
   };
 
   const submitWatch = async () => {
-    console.log(watchData);
-    try {
-      const response = await api.post('/api/v1/watch', watchData);
-      if (response.status === 201) {
-        router.push('/');
-      }
-      else{
-        throw new Error('Network response was not ok');
+    const dataToSend = {
+      monitorType: watchData.monitorType,
+      monitoringType: watchData.monitoringType,
+      url: watchData.url,
+      tags: watchData.tags,
+    };
 
+    try {
+      const response = await api.post('/api/v1/watch', dataToSend);
+      if (response.status === 201) {
+        console.log(response.data);
+        const updateSettings = await api.put(`/api/v1/watch/${response.data.uuid}`, {
+          time_between_check: watchData.time_between_check,
+          time_between_check_use_default: false,
+        });
+        if (updateSettings.status == 200) {
+          resetWatchData();
+          router.push('/');
+        }
+      } else {
+        throw new Error('Network response was not ok');
       }
 
       const result = await response.data;
